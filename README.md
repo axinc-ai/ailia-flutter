@@ -1,16 +1,61 @@
 # ailia_flutter
 
-A new Flutter project.
+A flutter binding for ailia.
 
-## Getting Started
+# Setup flutter
 
-This project is a starting point for a Flutter application.
+## Install flutter
 
-A few resources to get you started if this is your first Flutter project:
+Download flutter sdk and unzip.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+https://docs.flutter.dev/get-started/install
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Add to path to .zshrc.
+
+```
+export PATH="/Users/xxx/flutter/bin:$PATH"
+```
+
+## Install vscode extension
+
+1. Install flutter extension.
+2. Create new project (flutter: new project) from view -> command pallet.
+3. Push run from menu button.
+
+# Bind ailia C API via ffigen
+
+## Install ffigen
+
+Add ffigen to pubspec.yaml.
+
+https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
+
+## Place ailia header
+
+Place ailia.h to header folder.
+
+## Install llvm
+
+```
+brew install llvm
+```
+
+## Convert
+
+```
+dart run ffigen
+```
+
+# call ailia API
+
+## Predict API
+
+```
+TBD
+```
+
+# Documents
+
+- https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/01_chapter0_aboutme
+- https://docs.flutter.dev/platform-integration/macos/c-interop
+- https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
