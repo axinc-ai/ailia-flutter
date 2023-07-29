@@ -97,3 +97,5 @@ ffigen:
   headers:
     entry-points:
       - 'native/ailia.h'
+  llvm-path:
+    - '/usr/local/opt/llvm@15'

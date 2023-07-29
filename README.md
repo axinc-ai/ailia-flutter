@@ -2,7 +2,13 @@
 
 A flutter binding for ailia.
 
+# Test environment
+
+- macOS 13.4
+
 # Setup flutter
+
+This step is not necessary if flutter is already installed.
 
 ## Install flutter
 
@@ -22,7 +28,9 @@ export PATH="/Users/xxx/flutter/bin:$PATH"
 2. Create new project (flutter: new project) from view -> command pallet.
 3. Push run from menu button.
 
-# Bind ailia C API via ffigen
+# Bind ailia C API via ffigen (Optional)
+
+The steps below are done with ax and the dart interface files are included in this repository. Therefore, execution is not mandatory.
 
 ## Install ffigen
 
@@ -32,12 +40,21 @@ https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
 
 ## Place ailia header
 
-Place ailia.h to header folder.
+Place ailia.h to native folder.
 
 ## Install llvm
 
+I specified 15 because the build failed on M1 Mac with llvm.
+
 ```
-brew install llvm
+arch -arm64 brew install llvm@15
+```
+
+Add llvm path to pubspec.yaml.
+
+```
+  llvm-path:
+    - '/usr/local/opt/llvm@15'
 ```
 
 ## Convert
@@ -46,7 +63,7 @@ brew install llvm
 dart run ffigen
 ```
 
-# call ailia API
+# Call ailia API
 
 ## Predict API
 
