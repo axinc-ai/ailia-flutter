@@ -93,7 +93,7 @@ flutter:
 ffigen:
   name: 'MathUtilsFFI'
   description: 'Written for the FFI article'
-  output: 'lib/ffi/generated_bindings.dart'
+  output: 'lib/ffi/ailia.dart'
   headers:
     entry-points:
       - 'native/ailia.h'

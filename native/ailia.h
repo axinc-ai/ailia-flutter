@@ -27,6 +27,7 @@
 #define AILIA_API __stdcall
 #endif
 
+#include <stddef.h>
 #include "ailia_call.h"
 
 #ifdef __cplusplus

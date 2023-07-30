@@ -44,13 +44,23 @@ Place ailia.h to native folder.
 
 ## Install llvm
 
-I specified 15 because the build failed on M1 Mac with llvm.
+llvm is required to run ffi. The official tutorial says to run brew install llvm. But when calling brew install llvm, the clang arch does not match.
+
+```
+tried: '/usr/local/opt/llvm@15/lib/libclang.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64')),
+```
+
+https://stackoverflow.com/questions/71882029/mach-o-file-but-is-an-incompatible-architecture-have-arm64-need-x86-64-i
+
+So try to install llvm on arm architecture. I specified llvm@15 because the build failed on M1 Mac with llvm.
 
 ```
 arch -arm64 brew install llvm@15
 ```
 
-Add llvm path to pubspec.yaml.
+However, this command also installs the x86_64 version of clang. Therefore, changed flutter SDK to x86_64 version.
+
+Finally, add llvm path to pubspec.yaml.
 
 ```
   llvm-path:
@@ -59,9 +69,18 @@ Add llvm path to pubspec.yaml.
 
 ## Convert
 
+Convert ailia.h to ailia.dart with the command below.
+
 ```
 dart run ffigen
 ```
+
+Converting a struct will result in a build error, so the generated class needs to be marked final.
+
+https://github.com/dart-lang/sdk/issues/51787
+
+
+Exported file is [lib/ffi/ailia.dart](lib/ffi/ailia.dart).
 
 # Call ailia API
 
