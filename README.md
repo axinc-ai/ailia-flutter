@@ -85,16 +85,18 @@ Exported file is [lib/ffi/ailia.dart](lib/ffi/ailia.dart).
 
 # Call ailia API
 
-## Load Library
+## Add library to project file
 
-Put libailia.dylib to assets folder.
+Open macos/Runner.xcworkspace. Put libailia.dylib by following steps.
 
-How to copy dll : https://stackoverflow.com/questions/69511109/how-to-include-dlls-in-flutter-build-windows
+https://docs.flutter.dev/platform-integration/macos/c-interop
 
-Rererence : https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
+![tutorial](tutorial/dylib.png)
 
 ## Predict API
 
 ```
 TBD
 ```
+
+Rererence : https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
