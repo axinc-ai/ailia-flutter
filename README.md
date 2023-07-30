@@ -87,7 +87,7 @@ Exported file is [lib/ffi/ailia.dart](lib/ffi/ailia.dart).
 
 ## Add library to project file
 
-Open macos/Runner.xcworkspace. Put libailia.dylib by following steps.
+Put libailia.dylib to native folder. Open macos/Runner.xcworkspace. Regist libailia.dylib by following steps.
 
 https://docs.flutter.dev/platform-integration/macos/c-interop
 
