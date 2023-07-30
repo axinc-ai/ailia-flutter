@@ -64,6 +64,9 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
+  assets:
+    - assets/libailia.dylib
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -91,7 +94,7 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 ffigen:
-  name: 'MathUtilsFFI'
+  name: 'ailiaFFI'
   description: 'Written for the FFI article'
   output: 'lib/ffi/ailia.dart'
   headers:

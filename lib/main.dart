@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+// for ailia SDK
+import 'package:path/path.dart' as p;
+import 'dart:ffi';
+import 'dart:io';
+import 'package:ffi/ffi.dart'; // malloc
+import 'dart:typed_data';
+import 'package:ailia_flutter/ffi/ailia.dart' as ailia_dart;
+
 void main() {
   runApp(const MyApp());
 }
@@ -57,6 +65,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  String _getPath() {
+    final ailiaExamplePath = Directory.current.path;
+    var path = p.join(ailiaExamplePath, 'assets');
+    //var path = "/Users/kyakuno/Desktop/ailia_flutter/assets";
+    if (Platform.isMacOS) {
+      path = p.join(path, 'libailia.dylib');
+    } else if (Platform.isWindows) {
+      path = p.join(path, 'Debug', 'ailia.dll');
+    } else {
+      path = p.join(path, 'libailia.so');
+    }
+    return path;
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -65,6 +87,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       print("Hello flutter");
+      final ailia = ailia_dart.ailiaFFI(DynamicLibrary.open(_getPath()));
+
+      final Pointer<Uint32> count = malloc<Uint32>();
+      count.value = 3;
+      ailia.ailiaGetEnvironmentCount(count);
+      print("Environment ${count.value}");
+      malloc.free(count);
       _counter++;
     });
   }

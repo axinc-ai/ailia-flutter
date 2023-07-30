@@ -10,6 +10,8 @@ A flutter binding for ailia.
 
 This step is not necessary if flutter is already installed.
 
+Reference : https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/01_chapter0_aboutme
+
 ## Install flutter
 
 Download flutter sdk and unzip.
@@ -79,19 +81,20 @@ Converting a struct will result in a build error, so the generated class needs t
 
 https://github.com/dart-lang/sdk/issues/51787
 
-
 Exported file is [lib/ffi/ailia.dart](lib/ffi/ailia.dart).
 
 # Call ailia API
+
+## Load Library
+
+Put libailia.dylib to assets folder.
+
+How to copy dll : https://stackoverflow.com/questions/69511109/how-to-include-dlls-in-flutter-build-windows
+
+Rererence : https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
 
 ## Predict API
 
 ```
 TBD
 ```
-
-# Documents
-
-- https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/01_chapter0_aboutme
-- https://docs.flutter.dev/platform-integration/macos/c-interop
-- https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
