@@ -16,6 +16,9 @@ import 'package:path_provider/path_provider.dart';
 // kreleasemode
 import 'package:flutter/foundation.dart';
 
+// image
+import 'dart:ui' as ui;
+
 void main() {
   runApp(const MyApp());
 }
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ailia SDK Flutter Binding',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -47,7 +50,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'ailia SDK Flutter Binding'),
     );
   }
 }
@@ -114,6 +117,11 @@ class _MyHomePageState extends State<MyHomePage> {
     byteData.lengthInBytes));
   }
 
+  Future<ui.Image> loadImageFromAssets(String path) async {
+    ByteData data = await rootBundle.load(path);
+    return decodeImageFromList(data.buffer.asUint8List());
+  }
+
   void _ailiaPredict(var ailia){
     Pointer<Pointer<ailia_dart.AILIANetwork>> pp_ailia = malloc<Pointer<ailia_dart.AILIANetwork>>();
     int status = ailia.ailiaCreate(pp_ailia, ailia_dart.AILIA_ENVIRONMENT_ID_AUTO, ailia_dart.AILIA_MULTITHREAD_AUTO);
@@ -134,6 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
         print("ONNX file load success");
 
+        //ByteData data = image.toByteData();
+
         Pointer<ailia_dart.AILIANetwork> net = pp_ailia.value;
         ailia.ailiaDestroy(net);
         malloc.free(pp_ailia);
@@ -149,6 +159,19 @@ class _MyHomePageState extends State<MyHomePage> {
       _ailiaPredict(ailia);
   }
 
+  void initState() {
+    super.initState();
+      loadImageFromAssets("assets/clock.jpg").then(
+        (image_async) {
+          print("Image load success");
+          image = image_async;
+          setState(() { // apply to ui (call build)
+            isImageloaded = true;
+          });
+        }
+      );
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -156,10 +179,24 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      print("Hello flutter");
       _ailiaTest();
       _counter++;
     });
+  }
+
+  ui.Image? image = null;
+  bool isImageloaded = false;
+
+  Widget _buildImage() {
+    if (this.isImageloaded && image != null) {
+      print("new custom paint");
+      return new CustomPaint(
+          painter: new ImageEditor(image: image!),
+        );
+    } else {
+      print("loading");
+      return new Center(child: new Text('loading'));
+    }
   }
 
   @override
@@ -197,23 +234,52 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'You have pushed the inference button this many times:',
             ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            new Container(
+              width: 224,
+              height: 224,
+              child: _buildImage(),
+            ),
+            Text(
+              'Inference result : N/A',
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'Inference',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class ImageEditor extends CustomPainter {
+  ImageEditor({
+    this.image,
+  });
+
+  ui.Image? image;
+
+  @override
+  void paint(Canvas canvas, ui.Size size) {
+    if (image != null){
+      canvas.drawImage(image!, new Offset(0.0, 0.0), new Paint());
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+
 }
