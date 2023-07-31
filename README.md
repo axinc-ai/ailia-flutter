@@ -93,6 +93,12 @@ https://docs.flutter.dev/platform-integration/macos/c-interop
 
 ![tutorial](tutorial/dylib.png)
 
+## Add model to assets folder
+
+Put resnet18.onnx and clock.jpg to assets folder. Add these files to pubspec.yaml.
+
+(Already registered in the project in the sample.)
+
 ## Predict API
 
 ```
@@ -100,3 +106,14 @@ TBD
 ```
 
 Rererence : https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
+
+# Trouble shooting
+
+## macOS architecture error
+
+Please run below command on Rosetta2.
+
+```
+arch -x86_64 pod update
+arch -x86_64 pod install
+```

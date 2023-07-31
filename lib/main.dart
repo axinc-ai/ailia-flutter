@@ -8,6 +8,11 @@ import 'package:ffi/ffi.dart'; // malloc
 import 'dart:typed_data';
 import 'package:ailia_flutter/ffi/ailia.dart' as ailia_dart;
 
+// assets
+import 'package:flutter/services.dart'; //rootBundle
+import 'dart:async'; //Future
+import 'package:path_provider/path_provider.dart';
+
 // kreleasemode
 import 'package:flutter/foundation.dart';
 
@@ -90,13 +95,50 @@ class _MyHomePageState extends State<MyHomePage> {
         Pointer<Pointer<ailia_dart.AILIAEnvironment>> pp_env = malloc<Pointer<ailia_dart.AILIAEnvironment>>();
         ailia.ailiaGetEnvironment(pp_env, env_idx, ailia_dart.AILIA_ENVIRONMENT_VERSION);
         Pointer<ailia_dart.AILIAEnvironment> p_env = pp_env.value;
-        //ailia_dart.AILIAEnvironment env = p_env.load<ailia_dart.AILIAEnvironment>();
         print("Backend ${p_env.ref.backend}");
         print("Name ${p_env.ref.name.cast<Utf8>().toDartString()}");
         malloc.free(pp_env);
-        //"Your message".toNativeUtf8().cast<Int8>()
       }
       malloc.free(count);
+  }
+
+  Future<File> copyFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+    final buffer = byteData.buffer;
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    var filePath =
+      tempPath + '/${path}';
+    return File(filePath)
+      .writeAsBytes(buffer.asUint8List(byteData.offsetInBytes, 
+    byteData.lengthInBytes));
+  }
+
+  void _ailiaPredict(var ailia){
+    Pointer<Pointer<ailia_dart.AILIANetwork>> pp_ailia = malloc<Pointer<ailia_dart.AILIANetwork>>();
+    int status = ailia.ailiaCreate(pp_ailia, ailia_dart.AILIA_ENVIRONMENT_ID_AUTO, ailia_dart.AILIA_MULTITHREAD_AUTO);
+    if (status != ailia_dart.AILIA_STATUS_SUCCESS){
+      print("ailiaCreate failed ${status}");
+      return;
+    }
+
+    copyFileFromAssets("resnet18.onnx").then(
+      (onnx_file) {
+        String onnx_path = onnx_file.path;
+        print("onnx path : ${onnx_path}");
+        status = ailia.ailiaOpenWeightFileA(pp_ailia.value, onnx_path.toNativeUtf8().cast<Int8>());
+        if (status != ailia_dart.AILIA_STATUS_SUCCESS){
+          print("ailiaOpenWeightFileA failed ${status}");
+          return;
+        }
+
+        print("ONNX file load success");
+
+        Pointer<ailia_dart.AILIANetwork> net = pp_ailia.value;
+        ailia.ailiaDestroy(net);
+        malloc.free(pp_ailia);
+      }
+    );
   }
 
   void _ailiaTest(){
@@ -104,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print("ailia Library Path : ${path}");
       final ailia = ailia_dart.ailiaFFI(DynamicLibrary.open(path));
       _ailiaEnvironmentList(ailia);
+      _ailiaPredict(ailia);
   }
 
   void _incrementCounter() {
