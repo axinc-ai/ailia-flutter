@@ -5,6 +5,9 @@ A flutter binding for ailia.
 # Test environment
 
 - macOS 13.4
+- flutter 3.10.6
+- vscode 1.79.2
+- flutter extension 3.68.0
 
 # Setup flutter
 
