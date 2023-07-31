@@ -1,4 +1,4 @@
-# ailia_flutter
+# ailia Flutter Sample
 
 A flutter binding for ailia.
 
@@ -87,11 +87,29 @@ Exported file is [lib/ffi/ailia.dart](lib/ffi/ailia.dart).
 
 ## Add library to project file
 
+### macOS
+
 Put libailia.dylib to native folder. Open macos/Runner.xcworkspace. Regist libailia.dylib by following steps.
 
 https://docs.flutter.dev/platform-integration/macos/c-interop
 
-![tutorial](tutorial/dylib.png)
+![tutorial](tutorial/macos.png)
+
+### iOS
+
+TBD
+
+### Android
+
+Put libailia.so to android/app/src/jniLibs/[arm64-v8a, armeabi-v7a].
+
+https://docs.flutter.dev/platform-integration/android/c-interop
+
+![tutorial](tutorial/android.png)
+
+### Windows
+
+TBD
 
 ## Add model to assets folder
 
