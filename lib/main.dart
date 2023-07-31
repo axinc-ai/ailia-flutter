@@ -19,6 +19,9 @@ import 'package:flutter/foundation.dart';
 // image
 import 'dart:ui' as ui;
 
+// category
+import 'category.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -75,17 +78,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String predict_result = "";
 
   String _getPath() {
-    //if (true){//kReleaseMode) {
-    //  // I'm on release mode, absolute linking
-    //  final String local_lib =  p.join('data',  'flutter_assets', 'assets', 'libailia.dylib');
-    //  return p.join(Directory(Platform.resolvedExecutable).parent.path, local_lib);
-    //} else {
-      // I'm on debug mode, local linking
-      //var path = Directory.current.path;
+    if (Platform.isAndroid || Platform.isLinux){
+      return 'libailia.so';
+    }
+    if (Platform.isMacOS){
       return 'libailia.dylib';
-    //}
+    }
+    if (Platform.isWindows){
+      return 'ailia.dll';
+    }
+    return 'internal';
   }
 
   void _ailiaEnvironmentList(var ailia){
@@ -122,54 +127,94 @@ class _MyHomePageState extends State<MyHomePage> {
     return decodeImageFromList(data.buffer.asUint8List());
   }
 
-  void _ailiaPredict(var ailia){
+  String _ailiaPredict(var ailia, File onnx_file, ui.Image image, ByteData data){
     Pointer<Pointer<ailia_dart.AILIANetwork>> pp_ailia = malloc<Pointer<ailia_dart.AILIANetwork>>();
     int status = ailia.ailiaCreate(pp_ailia, ailia_dart.AILIA_ENVIRONMENT_ID_AUTO, ailia_dart.AILIA_MULTITHREAD_AUTO);
     if (status != ailia_dart.AILIA_STATUS_SUCCESS){
       print("ailiaCreate failed ${status}");
-      return;
+      return "Error";
     }
 
-    copyFileFromAssets("resnet18.onnx").then(
-      (onnx_file) {
-        String onnx_path = onnx_file.path;
-        print("onnx path : ${onnx_path}");
-        status = ailia.ailiaOpenWeightFileA(pp_ailia.value, onnx_path.toNativeUtf8().cast<Int8>());
-        if (status != ailia_dart.AILIA_STATUS_SUCCESS){
-          print("ailiaOpenWeightFileA failed ${status}");
-          return;
+    String onnx_path = onnx_file.path;
+    print("onnx path : ${onnx_path}");
+    status = ailia.ailiaOpenWeightFileA(pp_ailia.value, onnx_path.toNativeUtf8().cast<Int8>());
+    if (status != ailia_dart.AILIA_STATUS_SUCCESS){
+      print("ailiaOpenWeightFileA failed ${status}");
+      return "Error";
+    }
+
+    const int num_class = 1000;
+    const int image_size = 224;
+    const int image_channels = 3;
+
+    Pointer<Float> dest = malloc<Float>(1000);
+    Pointer<Float> src = malloc<Float>(image_size * image_size * image_channels);
+
+    List pixel = data.buffer.asUint8List().toList();
+
+    List mean = [0.485, 0.456, 0.406];
+    List std = [0.229, 0.224, 0.225];
+
+    for (int y = 0; y < image_size; y++){
+      for (int x = 0; x < image_size; x++){
+        for (int rgb = 0; rgb < 3; rgb++){
+          src[y * image_size + x + rgb * image_size * image_size] = (pixel[(image_size * y + x) * 4 + rgb] / 255.0 - mean[rgb])/std[rgb];
         }
-
-        print("ONNX file load success");
-
-        //ByteData data = image.toByteData();
-
-        Pointer<ailia_dart.AILIANetwork> net = pp_ailia.value;
-        ailia.ailiaDestroy(net);
-        malloc.free(pp_ailia);
       }
-    );
+    }
+
+    int sizeof_float = 4;
+    status = ailia.ailiaPredict(pp_ailia.value, dest, sizeof_float * num_class, src, sizeof_float * image_size * image_size * image_channels);
+
+    double max_prob = 0.0;
+    int max_i = 0;
+    for (int i = 0; i < num_class; i++){
+      if (max_prob < dest[i]){
+        max_prob = dest[i];
+        max_i = i;
+      }
+    }
+
+    malloc.free(dest);
+    malloc.free(src);
+
+    print("ONNX file load success");
+
+    Pointer<ailia_dart.AILIANetwork> net = pp_ailia.value;
+    ailia.ailiaDestroy(net);
+    malloc.free(pp_ailia);
+
+    return "Class : ${max_i} ${imagenet_category[max_i]} Confidence : ${max_prob}";
   }
 
   void _ailiaTest(){
-      String path = _getPath();
-      print("ailia Library Path : ${path}");
-      final ailia = ailia_dart.ailiaFFI(DynamicLibrary.open(path));
-      _ailiaEnvironmentList(ailia);
-      _ailiaPredict(ailia);
-  }
+    // Load image
+    loadImageFromAssets("assets/clock.jpg").then(
+      (image_async) {
+        print("Image load success");
+        image = image_async;
+        setState(() { // apply to ui (call build)
+          isImageloaded = true;
+        });
 
-  void initState() {
-    super.initState();
-      loadImageFromAssets("assets/clock.jpg").then(
-        (image_async) {
-          print("Image load success");
-          image = image_async;
-          setState(() { // apply to ui (call build)
-            isImageloaded = true;
+        // Load onnx
+        copyFileFromAssets("resnet18.onnx").then(
+          (onnx_file) {
+            // Load image data
+            image!.toByteData(format: ui.ImageByteFormat.rawRgba).then(
+              (data){
+                String path = _getPath();
+                print("ailia Library Path : ${path}");
+                final ailia = ailia_dart.ailiaFFI(DynamicLibrary.open(path));
+                _ailiaEnvironmentList(ailia);
+                setState(() {
+                  predict_result = _ailiaPredict(ailia, onnx_file, image!, data!);
+                });
+              }
+            );
           });
-        }
-      );
+      }
+    );
   }
 
   void _incrementCounter() {
@@ -189,13 +234,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildImage() {
     if (this.isImageloaded && image != null) {
-      print("new custom paint");
       return new CustomPaint(
           painter: new ImageEditor(image: image!),
         );
     } else {
-      print("loading");
-      return new Center(child: new Text('loading'));
+      return new Center(child: new Text(''));
     }
   }
 
@@ -249,7 +292,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: _buildImage(),
             ),
             Text(
-              'Inference result : N/A',
+              predict_result,
             ),
           ],
         ),

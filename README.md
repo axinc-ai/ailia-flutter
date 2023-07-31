@@ -99,13 +99,11 @@ Put resnet18.onnx and clock.jpg to assets folder. Add these files to pubspec.yam
 
 (Already registered in the project in the sample.)
 
-## Predict API
+## Predict
 
-```
-TBD
-```
+When you run this sample, resnet18 classifies what the image is.
 
-Rererence : https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
+![resnet18](tutorial/resnet18.png)
 
 # Trouble shooting
 
@@ -117,3 +115,6 @@ Please run below command on Rosetta2.
 arch -x86_64 pod update
 arch -x86_64 pod install
 ```
+# Reference
+
+- https://blog.logrocket.com/dart-ffi-native-libraries-flutter/
