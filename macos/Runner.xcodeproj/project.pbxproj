@@ -29,9 +29,8 @@
 		33CC11132044BFA00003C045 /* MainFlutterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC11122044BFA00003C045 /* MainFlutterWindow.swift */; };
 		82C6EBD7142C6EC49C506F46 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F34C320C1023AEB3CE2E86 /* Pods_RunnerTests.framework */; };
 		CE6A2B4F14DDD209CE98CA88 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1302DABF615BF1445E6B8CEC /* Pods_Runner.framework */; };
-		D4FA27F92A7694B6002F4572 /* libailia.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D4FA27F82A7694B6002F4572 /* libailia.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
-		D4FA27FA2A76950B002F4572 /* libailia.dylib in Bundle Framework */ = {isa = PBXBuildFile; fileRef = D4FA27F82A7694B6002F4572 /* libailia.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		D4FA27FB2A769575002F4572 /* libailia.dylib in Resources */ = {isa = PBXBuildFile; fileRef = D4FA27F82A7694B6002F4572 /* libailia.dylib */; };
+		D4B5B0972A77977900E27BB0 /* libailia.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B5B0962A77977900E27BB0 /* libailia.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D4B5B0982A7797DF00E27BB0 /* libailia.dylib in Bundle Framework */ = {isa = PBXBuildFile; fileRef = D4B5B0962A77977900E27BB0 /* libailia.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +57,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D4FA27FA2A76950B002F4572 /* libailia.dylib in Bundle Framework */,
+				D4B5B0982A7797DF00E27BB0 /* libailia.dylib in Bundle Framework */,
 			);
 			name = "Bundle Framework";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,7 +91,7 @@
 		9A8472801D2EBFB6414206ED /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		A4B39497C481221AAB773D18 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		BCF724D9AB0ABE2A0708D5C3 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
-		D4FA27F82A7694B6002F4572 /* libailia.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libailia.dylib; path = ../native/libailia.dylib; sourceTree = "<group>"; };
+		D4B5B0962A77977900E27BB0 /* libailia.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libailia.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,8 +107,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4FA27F92A7694B6002F4572 /* libailia.dylib in Frameworks */,
 				CE6A2B4F14DDD209CE98CA88 /* Pods_Runner.framework in Frameworks */,
+				D4B5B0972A77977900E27BB0 /* libailia.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,7 +125,6 @@
 				6AF4970192F6105FD9DB801C /* Pods-RunnerTests.release.xcconfig */,
 				6936676EFBCD5ED5C44412C3 /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -208,7 +206,7 @@
 		D73912EC22F37F3D000D13A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D4FA27F82A7694B6002F4572 /* libailia.dylib */,
+				D4B5B0962A77977900E27BB0 /* libailia.dylib */,
 				1302DABF615BF1445E6B8CEC /* Pods_Runner.framework */,
 				57F34C320C1023AEB3CE2E86 /* Pods_RunnerTests.framework */,
 			);
@@ -321,7 +319,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4FA27FB2A769575002F4572 /* libailia.dylib in Resources */,
 				33CC10F32044A3C60003C045 /* Assets.xcassets in Resources */,
 				33CC10F62044A3C60003C045 /* MainMenu.xib in Resources */,
 			);
@@ -583,7 +580,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = ../native;
+				LIBRARY_SEARCH_PATHS = (
+					./,
+					"$(PROJECT_DIR)",
+				);
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -710,7 +710,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = ../native;
+				LIBRARY_SEARCH_PATHS = (
+					./,
+					"$(PROJECT_DIR)",
+				);
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -731,7 +734,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = ../native;
+				LIBRARY_SEARCH_PATHS = (
+					./,
+					"$(PROJECT_DIR)",
+				);
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};

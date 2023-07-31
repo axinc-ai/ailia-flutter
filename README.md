@@ -90,7 +90,7 @@ Exported file is [lib/ffi/ailia.dart](lib/ffi/ailia.dart).
 
 ### macOS
 
-Put libailia.dylib to native folder. Open macos/Runner.xcworkspace. Regist libailia.dylib by following steps.
+Put libailia.dylib to macos folder. Open macos/Runner.xcworkspace. Regist libailia.dylib by following steps.
 
 https://docs.flutter.dev/platform-integration/macos/c-interop
 
@@ -98,7 +98,31 @@ https://docs.flutter.dev/platform-integration/macos/c-interop
 
 ### iOS
 
-TBD
+Put libailia.a to ios folder. Open ios/Runner.xcworkspace. Regist libailia.a, libc++.tbd, Accelerate.framework, MetalPerformanceShader to Frameworks.
+
+https://docs.flutter.dev/platform-integration/ios/c-interop
+
+![tutorial](tutorial/ios.png)
+
+If you don't call libailia.a at all, it will be erased by linking and symbol not found by dlopen. Add ailia_link.c and call ailiaGetVersion() as a dummy to avoid this.
+
+```
+//
+//  ailia_link.c
+//  Runner
+//
+//  Created by Kazuki Kyakuno on 2023/07/31.
+//
+
+#include "ailia_link.h"
+#include "ailia.h"
+
+// Dummy link to keep libailia.a from being deleted
+
+void test(void){
+    ailiaGetVersion();
+}
+```
 
 ### Android
 
@@ -128,7 +152,7 @@ The inference code is below.
 
 # Trouble shooting
 
-## macOS architecture error
+## iOS and macOS pod error
 
 Please run below command on Rosetta2.
 

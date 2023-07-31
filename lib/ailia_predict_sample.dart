@@ -21,8 +21,18 @@ String _getPath() {
   return 'internal';
 }
 
+DynamicLibrary ailiaGetLibrary(){
+    final DynamicLibrary library;
+    if (Platform.isIOS){
+      library = DynamicLibrary.process();
+    }else{
+      library = DynamicLibrary.open(_getPath());
+    }
+    return library;
+}
+
 void ailiaEnvironmentSample(){
-    final ailia = ailia_dart.ailiaFFI(DynamicLibrary.open(_getPath()));
+    final ailia = ailia_dart.ailiaFFI(ailiaGetLibrary());
 
     final Pointer<Uint32> count = malloc<Uint32>();
     count.value = 0;
@@ -41,7 +51,7 @@ void ailiaEnvironmentSample(){
 }
 
 String ailiaPredictSample(File onnx_file, ByteData data){
-  final ailia = ailia_dart.ailiaFFI(DynamicLibrary.open(_getPath()));
+  final ailia = ailia_dart.ailiaFFI(ailiaGetLibrary());
 
   Pointer<Pointer<ailia_dart.AILIANetwork>> pp_ailia = malloc<Pointer<ailia_dart.AILIANetwork>>();
   int status = ailia.ailiaCreate(pp_ailia, ailia_dart.AILIA_ENVIRONMENT_ID_AUTO, ailia_dart.AILIA_MULTITHREAD_AUTO);
