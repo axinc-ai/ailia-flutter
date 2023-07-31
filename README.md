@@ -95,15 +95,17 @@ https://docs.flutter.dev/platform-integration/macos/c-interop
 
 ## Add model to assets folder
 
-Put resnet18.onnx and clock.jpg to assets folder. Add these files to pubspec.yaml.
-
-(Already registered in the project in the sample.)
+Put resnet18.onnx and clock.jpg to assets folder. Add these files to pubspec.yaml.　By the way, already registered in the project in the sample.
 
 ## Predict
 
 When you run this sample, resnet18 classifies what the image is.
 
 ![resnet18](tutorial/resnet18.png)
+
+The inference code is below.
+
+[lib/ailia_predict_sample.dart](lib/ailia_predict_sample.dart)
 
 # Trouble shooting
 
