@@ -80,6 +80,32 @@ class _MyHomePageState extends State<MyHomePage> {
     //}
   }
 
+  void _ailiaEnvironmentList(var ailia){
+      final Pointer<Uint32> count = malloc<Uint32>();
+      count.value = 0;
+      ailia.ailiaGetEnvironmentCount(count);
+      print("Environment ${count.value}");
+
+      for (int env_idx = 0; env_idx < count.value; env_idx++){
+        Pointer<Pointer<ailia_dart.AILIAEnvironment>> pp_env = malloc<Pointer<ailia_dart.AILIAEnvironment>>();
+        ailia.ailiaGetEnvironment(pp_env, env_idx, ailia_dart.AILIA_ENVIRONMENT_VERSION);
+        Pointer<ailia_dart.AILIAEnvironment> p_env = pp_env.value;
+        //ailia_dart.AILIAEnvironment env = p_env.load<ailia_dart.AILIAEnvironment>();
+        print("Backend ${p_env.ref.backend}");
+        print("Name ${p_env.ref.name.cast<Utf8>().toDartString()}");
+        malloc.free(pp_env);
+        //"Your message".toNativeUtf8().cast<Int8>()
+      }
+      malloc.free(count);
+  }
+
+  void _ailiaTest(){
+      String path = _getPath();
+      print("ailia Library Path : ${path}");
+      final ailia = ailia_dart.ailiaFFI(DynamicLibrary.open(path));
+      _ailiaEnvironmentList(ailia);
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -88,16 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       print("Hello flutter");
-      String path = _getPath();
-      print(path);
-      final ailia = ailia_dart.ailiaFFI(DynamicLibrary.open(path));
-
-      final Pointer<Uint32> count = malloc<Uint32>();
-      count.value = 3;
-      ailia.ailiaGetEnvironmentCount(count);
-      print("Environment ${count.value}");
-      malloc.free(count);
-
+      _ailiaTest();
       _counter++;
     });
   }
