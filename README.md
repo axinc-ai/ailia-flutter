@@ -74,7 +74,8 @@ Finally, add llvm path to pubspec.yaml.
 Convert ailia.h to ailia.dart with the command below.
 
 ```
-dart run ffigen
+dart run ffigen --config ffigen_ailia.yaml
+dart run ffigen --config ffigen_ailia_audio.yaml
 ```
 
 Converting a struct will result in a build error, so the generated class needs to be marked final.

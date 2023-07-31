@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:ffi/ffi.dart'; // malloc
 import 'dart:typed_data';
 import 'package:ailia_flutter/ffi/ailia.dart' as ailia_dart;
+import 'package:ailia_flutter/ffi/ailia_audio.dart' as ailia_audio_dart;
 import 'category.dart';
 
 String _getPath() {

@@ -98,13 +98,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
-ffigen:
-  name: 'ailiaFFI'
-  description: 'Written for the FFI article'
-  output: 'lib/ffi/ailia.dart'
-  headers:
-    entry-points:
-      - 'native/ailia.h'
-  llvm-path:
-    - '/usr/local/opt/llvm@15'

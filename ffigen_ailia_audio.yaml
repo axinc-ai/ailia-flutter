@@ -1,0 +1,8 @@
+﻿name: 'ailiaAudioFFI'
+description: 'Written for the FFI article'
+output: 'lib/ffi/ailia_audio.dart'
+headers:
+  entry-points:
+    - 'native/ailia_audio.h'
+llvm-path:
+  - '/usr/local/opt/llvm@15'

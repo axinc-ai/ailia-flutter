@@ -1946,6 +1946,1183 @@ class ailiaFFI {
           'ailiaGetVersion');
   late final _ailiaGetVersion =
       _ailiaGetVersionPtr.asFunction<ffi.Pointer<ffi.Int8> Function()>();
+
+  /// \~japanese
+  /// @brief 画像のフォーマットを変換します。
+  /// @param dst                  変換後画像の格納先(numeric型、sizeof(float) * dst_width * dst_height *
+  /// チャンネル数(解説参照)以上のサイズを確保すること)
+  /// @param dst_width            変換後画像の横幅
+  /// @param dst_height           変換後画像の高さ
+  /// @param dst_format           変換後画像の形式 (AILIA_NETWORK_IMAGE_FORMAT_*)
+  /// @param dst_channel          変換後画像のチャンネル順 (AILIA_NETWORK_IMAGE_CHANNEL_*)
+  /// @param dst_range            変換後画像のレンジ (AILIA_NETWORK_IMAGE_RANGE_*)
+  /// @param src                  変換元画像の格納先(32bpp)
+  /// @param src_stride           変換元画像のラインバイト数
+  /// @param src_width            変換元画像の横幅
+  /// @param src_height           変換元画像の高さ
+  /// @param src_format           変換元画像の形式 (AILIA_IMAGE_FORMAT_*)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// @details
+  /// 画像フォーマットを変更します。dst_formatが \ref AILIA_NETWORK_IMAGE_FORMAT_BGR
+  /// もしくはAILIA_NETWORK_IMAGE_FORMAT_RGB の場合、チャンネル数は3,  \ref AILIA_NETWORK_IMAGE_FORMAT_GRAY
+  /// の場合チャンネル数は1となります。
+  ///
+  /// \~english
+  /// @brief Converts image formats.
+  /// @param dst                  The storage location of the image after conversion (numeric type; a size of sizeof(float)
+  /// * dst_width * dst_height * num_of_channel(See Description) or more must be allocated.)
+  /// @param dst_width            The width of the image after conversion
+  /// @param dst_height           The height of the image after conversion
+  /// @param dst_format           The format of the image after conversion (AILIA_NETWORK_IMAGE_FORMAT_*)
+  /// @param dst_channel          The channel order of the image after conversion (AILIA_NETWORK_IMAGE_CHANNEL_*)
+  /// @param dst_range            The range of the image after conversion (AILIA_NETWORK_IMAGE_RANGE_*)
+  /// @param src                  The storage location of the source image (32 bpp)
+  /// @param src_stride           The line byte number of the source image
+  /// @param src_width            The width of the source image
+  /// @param src_height           The height of the source image
+  /// @param src_format           The format of the source image (AILIA_IMAGE_FORMAT_*)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// @details
+  /// This function converts image formats. If dst_format is set to  \ref AILIA_NETWORK_IMAGE_FORMAT_BGR  or  \ref
+  /// AILIA_NETWORK_IMAGE_FORMAT_RGB , the number of channels is 3, otherwise if set to  \ref
+  /// AILIA_NETWORK_IMAGE_FORMAT_GRAY , the number of channels is 1.
+  int ailiaFormatConvert(
+    ffi.Pointer<ffi.Void> dst,
+    int dst_width,
+    int dst_height,
+    int dst_format,
+    int dst_channel,
+    int dst_range,
+    ffi.Pointer<ffi.Void> src,
+    int src_stride,
+    int src_width,
+    int src_height,
+    int src_format,
+  ) {
+    return _ailiaFormatConvert(
+      dst,
+      dst_width,
+      dst_height,
+      dst_format,
+      dst_channel,
+      dst_range,
+      src,
+      src_stride,
+      src_width,
+      src_height,
+      src_format,
+    );
+  }
+
+  late final _ailiaFormatConvertPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Pointer<ffi.Void>,
+              ffi.Int32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaFormatConvert');
+  late final _ailiaFormatConvert = _ailiaFormatConvertPtr.asFunction<
+      int Function(ffi.Pointer<ffi.Void>, int, int, int, int, int,
+          ffi.Pointer<ffi.Void>, int, int, int, int)>();
+
+  /// \~japanese
+  /// @brief 識別オブジェクトを作成します。
+  /// @param classifier 識別オブジェクトポインタへのポインタ
+  /// @param net        ネットワークオブジェクトポインタ
+  /// @param format     ネットワークの画像フォーマット （AILIA_NETWORK_IMAGE_FORMAT_*）
+  /// @param channel    ネットワークの画像チャンネル (AILIA_NETWORK_IMAGE_CHANNEL_*)
+  /// @param range      ネットワークの画像レンジ （AILIA_NETWORK_IMAGE_RANGE_*）
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Creates a classifier instance.
+  /// @param classifier A pointer to a classifier instance pointer
+  /// @param net        A network instance pointer
+  /// @param format     The network image format (AILIA_NETWORK_IMAGE_FORMAT_*)
+  /// @param channel    The network image channel (AILIA_NETWORK_IMAGE_CHANNEL_*)
+  /// @param range      The network image range (AILIA_NETWORK_IMAGE_RANGE_*)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaCreateClassifier(
+    ffi.Pointer<ffi.Pointer<AILIAClassifier>> classifier,
+    ffi.Pointer<AILIANetwork> net,
+    int format,
+    int channel,
+    int range,
+  ) {
+    return _ailiaCreateClassifier(
+      classifier,
+      net,
+      format,
+      channel,
+      range,
+    );
+  }
+
+  late final _ailiaCreateClassifierPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<ffi.Pointer<AILIAClassifier>>,
+              ffi.Pointer<AILIANetwork>,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaCreateClassifier');
+  late final _ailiaCreateClassifier = _ailiaCreateClassifierPtr.asFunction<
+      int Function(ffi.Pointer<ffi.Pointer<AILIAClassifier>>,
+          ffi.Pointer<AILIANetwork>, int, int, int)>();
+
+  /// \~japanese
+  /// @brief 識別オブジェクトを破棄します。
+  /// @param classifier 識別オブジェクトポインタ
+  ///
+  /// \~english
+  /// @brief Destroys the classifier instance.
+  /// @param classifier A classifier instance pointer
+  void ailiaDestroyClassifier(
+    ffi.Pointer<AILIAClassifier> classifier,
+  ) {
+    return _ailiaDestroyClassifier(
+      classifier,
+    );
+  }
+
+  late final _ailiaDestroyClassifierPtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<AILIAClassifier>)>>(
+      'ailiaDestroyClassifier');
+  late final _ailiaDestroyClassifier = _ailiaDestroyClassifierPtr
+      .asFunction<void Function(ffi.Pointer<AILIAClassifier>)>();
+
+  /// \~japanese
+  /// @brief 物体識別を行います。
+  /// @param classifier                  識別オブジェクトポインタ
+  /// @param src                         画像データ(32bpp)
+  /// @param src_stride                  1ラインのバイト数
+  /// @param src_width                   画像幅
+  /// @param src_height                  画像高さ
+  /// @param src_format                  画像のフォーマット (AILIA_IMAGE_FORMAT_*)
+  /// @param max_class_count             識別結果の数の最大
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Performs object classification.
+  /// @param classifier                  A classifier instance pointer
+  /// @param src                         Image data (32 bpp)
+  /// @param src_stride                  The number of bytes in 1 line
+  /// @param src_width                   Image width
+  /// @param src_height                  Image height
+  /// @param src_format                  Image format (AILIA_IMAGE_FORMAT_*)
+  /// @param max_class_count             The maximum number of classification results
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaClassifierCompute(
+    ffi.Pointer<AILIAClassifier> classifier,
+    ffi.Pointer<ffi.Void> src,
+    int src_stride,
+    int src_width,
+    int src_height,
+    int src_format,
+    int max_class_count,
+  ) {
+    return _ailiaClassifierCompute(
+      classifier,
+      src,
+      src_stride,
+      src_width,
+      src_height,
+      src_format,
+      max_class_count,
+    );
+  }
+
+  late final _ailiaClassifierComputePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAClassifier>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaClassifierCompute');
+  late final _ailiaClassifierCompute = _ailiaClassifierComputePtr.asFunction<
+      int Function(ffi.Pointer<AILIAClassifier>, ffi.Pointer<ffi.Void>, int,
+          int, int, int, int)>();
+
+  /// \~japanese
+  /// @brief 識別結果の数を取得します。
+  /// @param classifier 識別オブジェクトポインタ
+  /// @param cls_count  クラス数
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Gets the number of classification results.
+  /// @param classifier A classifier instance pointer
+  /// @param cls_count  The number of classes
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaClassifierGetClassCount(
+    ffi.Pointer<AILIAClassifier> classifier,
+    ffi.Pointer<ffi.Uint32> cls_count,
+  ) {
+    return _ailiaClassifierGetClassCount(
+      classifier,
+      cls_count,
+    );
+  }
+
+  late final _ailiaClassifierGetClassCountPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<AILIAClassifier>,
+              ffi.Pointer<ffi.Uint32>)>>('ailiaClassifierGetClassCount');
+  late final _ailiaClassifierGetClassCount =
+      _ailiaClassifierGetClassCountPtr.asFunction<
+          int Function(
+              ffi.Pointer<AILIAClassifier>, ffi.Pointer<ffi.Uint32>)>();
+
+  /// \~japanese
+  /// @brief 識別結果を取得します。
+  /// @param classifier 識別オブジェクトポインタ
+  /// @param cls        クラス情報
+  /// @param cls_idx    クラスインデックス
+  /// @param version    \ref AILIA_CLASSIFIER_CLASS_VERSION
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// @details
+  /// ailiaClassifierCompute() を一度も実行していない場合は \ref AILIA_STATUS_INVALID_STATE が返ります。
+  /// 識別結果は推定確率順でソートされます。
+  ///
+  /// \~english
+  /// @brief Gets the classification results.
+  /// @param classifier A classifier instance pointer
+  /// @param cls        Class information
+  /// @param cls_idx    Class index
+  /// @param version    \ref AILIA_CLASSIFIER_CLASS_VERSION
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// @details
+  /// If  ailiaClassifierCompute()  is not run at all, the function returns  \ref AILIA_STATUS_INVALID_STATE .
+  /// The classification results are sorted in the order of estimated probability.
+  int ailiaClassifierGetClass(
+    ffi.Pointer<AILIAClassifier> classifier,
+    ffi.Pointer<AILIAClassifierClass> obj,
+    int cls_idx,
+    int version,
+  ) {
+    return _ailiaClassifierGetClass(
+      classifier,
+      obj,
+      cls_idx,
+      version,
+    );
+  }
+
+  late final _ailiaClassifierGetClassPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAClassifier>,
+              ffi.Pointer<AILIAClassifierClass>,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaClassifierGetClass');
+  late final _ailiaClassifierGetClass = _ailiaClassifierGetClassPtr.asFunction<
+      int Function(ffi.Pointer<AILIAClassifier>,
+          ffi.Pointer<AILIAClassifierClass>, int, int)>();
+
+  /// \~japanese
+  /// @brief 検出オブジェクトを作成します。
+  /// @param detector       検出オブジェクトポインタ
+  /// @param net            ネットワークオブジェクトポインタ
+  /// @param format         ネットワークの画像フォーマット (AILIA_NETWORK_IMAGE_FORMAT_*)
+  /// @param channel        ネットワークの画像チャンネル (AILIA_NETWORK_IMAGE_CHANNEL_*)
+  /// @param range          ネットワークの画像レンジ (AILIA_NETWORK_IMAGE_RANGE_*)
+  /// @param algorithm      検出アルゴリズム(AILIA_DETECTOR_ALGORITHM_*)
+  /// @param category_count 検出カテゴリ数(VOCの場合は20、COCOの場合は80、などを指定)
+  /// @param flags          追加オプションフラグ(AILIA_DETECTOR_FLAG_*)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Creates a detector instance.
+  /// @param detector       A detector instance pointer
+  /// @param net            The network instance pointer
+  /// @param format         The network image format (AILIA_NETWORK_IMAGE_FORMAT_*)
+  /// @param channel        The network image channel (AILIA_NETWORK_IMAGE_CHANNEL_*)
+  /// @param range          The network image range (AILIA_NETWORK_IMAGE_RANGE_*)
+  /// @param algorithm      Detection algorithm(AILIA_DETECTOR_ALGORITHM_*)
+  /// @param category_count The number of detection categories (specify 20 for VOC or 80 for COCO, etc.)
+  /// @param flags          Additional option(AILIA_DETECTOR_FLAG_*)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaCreateDetector(
+    ffi.Pointer<ffi.Pointer<AILIADetector>> detector,
+    ffi.Pointer<AILIANetwork> net,
+    int format,
+    int channel,
+    int range,
+    int algorithm,
+    int category_count,
+    int flags,
+  ) {
+    return _ailiaCreateDetector(
+      detector,
+      net,
+      format,
+      channel,
+      range,
+      algorithm,
+      category_count,
+      flags,
+    );
+  }
+
+  late final _ailiaCreateDetectorPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<ffi.Pointer<AILIADetector>>,
+              ffi.Pointer<AILIANetwork>,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaCreateDetector');
+  late final _ailiaCreateDetector = _ailiaCreateDetectorPtr.asFunction<
+      int Function(ffi.Pointer<ffi.Pointer<AILIADetector>>,
+          ffi.Pointer<AILIANetwork>, int, int, int, int, int, int)>();
+
+  /// \~japanese
+  /// @brief 検出オブジェクトを破棄します。
+  /// @param detector 検出オブジェクトポインタ
+  ///
+  /// \~english
+  /// @brief Destroys the detector instance.
+  /// @param detector A detector instance pointer
+  void ailiaDestroyDetector(
+    ffi.Pointer<AILIADetector> detector,
+  ) {
+    return _ailiaDestroyDetector(
+      detector,
+    );
+  }
+
+  late final _ailiaDestroyDetectorPtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<AILIADetector>)>>(
+      'ailiaDestroyDetector');
+  late final _ailiaDestroyDetector = _ailiaDestroyDetectorPtr
+      .asFunction<void Function(ffi.Pointer<AILIADetector>)>();
+
+  /// \~japanese
+  /// @brief 物体検出を行います。
+  /// @param detector                    検出オブジェクトポインタ
+  /// @param src                         画像データ(32bpp)
+  /// @param src_stride                  1ラインのバイト数
+  /// @param src_width                   画像幅
+  /// @param src_height                  画像高さ
+  /// @param src_format                  画像フォーマット (AILIA_IMAGE_FORMAT_*)
+  /// @param threshold                   検出しきい値(0.1f等)(小さいほど検出されやすくなり、検出数増加)
+  /// @param iou                         重複除外しきい値(0.45f等)(小さいほど重複を許容せず検出数減少)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Performs object detection.
+  /// @param detector                    A detector instance pointer
+  /// @param src                         Image data (32 bpp)
+  /// @param src_stride                  The number of bytes in 1 line
+  /// @param src_width                   Image width
+  /// @param src_height                  Image height
+  /// @param src_format                  Image format (AILIA_IMAGE_FORMAT_*)
+  /// @param threshold                   The detection threshold (for example, 0.1f) (The smaller it is, the easier the
+  /// detection will be and the more detected objects found.)
+  /// @param iou                         Iou threshold (for example, 0.45f) (The smaller it is, the fewer detected objects
+  /// found, as duplication is not allowed.)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaDetectorCompute(
+    ffi.Pointer<AILIADetector> detector,
+    ffi.Pointer<ffi.Void> src,
+    int src_stride,
+    int src_width,
+    int src_height,
+    int src_format,
+    double threshold,
+    double iou,
+  ) {
+    return _ailiaDetectorCompute(
+      detector,
+      src,
+      src_stride,
+      src_width,
+      src_height,
+      src_format,
+      threshold,
+      iou,
+    );
+  }
+
+  late final _ailiaDetectorComputePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIADetector>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Float,
+              ffi.Float)>>('ailiaDetectorCompute');
+  late final _ailiaDetectorCompute = _ailiaDetectorComputePtr.asFunction<
+      int Function(ffi.Pointer<AILIADetector>, ffi.Pointer<ffi.Void>, int, int,
+          int, int, double, double)>();
+
+  /// \~japanese
+  /// @brief 検出結果の数を取得します。
+  /// @param detector   検出オブジェクトポインタ
+  /// @param obj_count  オブジェクト数
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Gets the number of detection results.
+  /// @param detector   A detector instance pointer
+  /// @param obj_count  The number of objects
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaDetectorGetObjectCount(
+    ffi.Pointer<AILIADetector> detector,
+    ffi.Pointer<ffi.Uint32> obj_count,
+  ) {
+    return _ailiaDetectorGetObjectCount(
+      detector,
+      obj_count,
+    );
+  }
+
+  late final _ailiaDetectorGetObjectCountPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<AILIADetector>,
+              ffi.Pointer<ffi.Uint32>)>>('ailiaDetectorGetObjectCount');
+  late final _ailiaDetectorGetObjectCount =
+      _ailiaDetectorGetObjectCountPtr.asFunction<
+          int Function(ffi.Pointer<AILIADetector>, ffi.Pointer<ffi.Uint32>)>();
+
+  /// \~japanese
+  /// @brief 検出結果を取得します。
+  /// @param detector   検出オブジェクトポインタ
+  /// @param obj        オブジェクト情報
+  /// @param obj_idx    オブジェクトインデックス
+  /// @param version    AILIA_DETECTOR_OBJECT_VERSION
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// @details
+  /// ailiaDetectorCompute() を一度も実行していない場合は \ref AILIA_STATUS_INVALID_STATE が返ります。
+  /// 検出結果は推定確率順でソートされます。
+  ///
+  /// \~english
+  /// @brief Gets the detection results.
+  /// @param detector   A detector instance pointer
+  /// @param obj        Object information
+  /// @param obj_idx    Object index
+  /// @param version    AILIA_DETECTOR_OBJECT_VERSION
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// @details
+  /// If  ailiaDetectorCompute()  is not run at all, the function returns  \ref AILIA_STATUS_INVALID_STATE .
+  /// The detection results are sorted in the order of estimated probability.
+  int ailiaDetectorGetObject(
+    ffi.Pointer<AILIADetector> detector,
+    ffi.Pointer<AILIADetectorObject> obj,
+    int obj_idx,
+    int version,
+  ) {
+    return _ailiaDetectorGetObject(
+      detector,
+      obj,
+      obj_idx,
+      version,
+    );
+  }
+
+  late final _ailiaDetectorGetObjectPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIADetector>,
+              ffi.Pointer<AILIADetectorObject>,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaDetectorGetObject');
+  late final _ailiaDetectorGetObject = _ailiaDetectorGetObjectPtr.asFunction<
+      int Function(ffi.Pointer<AILIADetector>, ffi.Pointer<AILIADetectorObject>,
+          int, int)>();
+
+  /// \~japanese
+  /// @brief YoloV2などのためにアンカーズ (anchorsまたはbiases) の情報を設定します。
+  /// @param detector       検出オブジェクトポインタ
+  /// @param anchors        アンカーズの寸法 (検出ボックスの形状、高さと幅)
+  /// @param anchors_count  アンカーズの数 (anchorsの配列サイズの半分)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// @details
+  /// YoloV2などは学習時に決定された複数の検出ボックスを使用して物体検出を行います。このAPIで学習時に決定された検出ボックスの形状を設定することで、正しい推論を行います。
+  /// anchorsには{x,y,x,y...}の形式で格納します。
+  /// anchors_countが5の場合、anchorsは10次元の配列になります。
+  ///
+  /// \~english
+  /// @brief Sets the anchor information (anchors or biases) for YoloV2 or other systems.
+  /// @param detector       A detector instance pointer
+  /// @param anchors        The anchor dimensions (the shape, height and width of the detection box)
+  /// @param anchors_count  The number of anchors (half of the anchors array size)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// @details
+  /// YoloV2 and other systems perform object detection with multiple detection boxes determined during training. By
+  /// using this API function to set the shape of the detection box determined during training, correct inferences can be
+  /// made. The {x, y, x, y ...} format is used for anchor storage. If anchors_count has a value of 5, then anchors is a
+  /// 10-dimensional array.
+  int ailiaDetectorSetAnchors(
+    ffi.Pointer<AILIADetector> detector,
+    ffi.Pointer<ffi.Float> anchors,
+    int anchors_count,
+  ) {
+    return _ailiaDetectorSetAnchors(
+      detector,
+      anchors,
+      anchors_count,
+    );
+  }
+
+  late final _ailiaDetectorSetAnchorsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<AILIADetector>, ffi.Pointer<ffi.Float>,
+              ffi.Uint32)>>('ailiaDetectorSetAnchors');
+  late final _ailiaDetectorSetAnchors = _ailiaDetectorSetAnchorsPtr.asFunction<
+      int Function(ffi.Pointer<AILIADetector>, ffi.Pointer<ffi.Float>, int)>();
+
+  /// \~japanese
+  /// @brief YoloV3またはYoloXでのモデルへの入力画像サイズを指定します。
+  /// @param detector       検出オブジェクトポインタ
+  /// @param input_width    モデルの入力画像幅
+  /// @param input_height   モデルの入力画像高さ
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// @details
+  /// YoloV3では単一のモデルが任意の入力解像度に対応します。(32 の倍数制限あり)
+  /// YoloXでは単一のモデルが任意の入力解像度に対応します。
+  /// 計算量の削減等でモデルへの入力画像サイズを指定する場合この API を実行してください。
+  /// ailiaCreateDetector() () と  ailiaDetectorCompute() () の間に実行する必要があります。
+  /// この API を実行しない場合、デフォルトの 416x416 を利用します。
+  /// YOLOv3またはYOLOX 以外で実行した場合、 \ref AILIA_STATUS_INVALID_STATE  を返します。
+  ///
+  /// \~english
+  /// @brief Sets the size of the input image for YoloV3 or YoloX model.
+  /// @param detector       A detector instance pointer
+  /// @param input_width    Width of the model's input image
+  /// @param input_height   Height of the model's input image
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// @details
+  /// The same YoloV3 model can be used for any input image size that is a multiple of 32.
+  /// The same YoloX model can be used for any input image size.
+  /// You can use this API if you want to choose the input image size, for example to reduce the calculation complexity.
+  /// It must be called between  ailiaCreateDetector() () and  ailiaDetectorCompute() ().
+  /// If this API is not used, a default size of 416x416 is assumed.
+  /// If used with some model other than YoloV3 or YoloX, it will return the error status  \ref
+  /// AILIA_STATUS_INVALID_STATE .
+  int ailiaDetectorSetInputShape(
+    ffi.Pointer<AILIADetector> detector,
+    int input_width,
+    int input_height,
+  ) {
+    return _ailiaDetectorSetInputShape(
+      detector,
+      input_width,
+      input_height,
+    );
+  }
+
+  late final _ailiaDetectorSetInputShapePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<AILIADetector>, ffi.Uint32,
+              ffi.Uint32)>>('ailiaDetectorSetInputShape');
+  late final _ailiaDetectorSetInputShape = _ailiaDetectorSetInputShapePtr
+      .asFunction<int Function(ffi.Pointer<AILIADetector>, int, int)>();
+
+  /// \~japanese
+  /// @brief 特徴抽出オブジェクトを作成します。
+  /// @param fextractor 特徴抽出オブジェクトポインタ
+  /// @param net        ネットワークオブジェクトポインタ
+  /// @param format     ネットワークの画像フォーマット (AILIA_NETWORK_IMAGE_FORMAT_*)
+  /// @param channel    ネットワークの画像チャンネル (AILIA_NETWORK_IMAGE_CHANNEL_*)
+  /// @param range      ネットワークの画像レンジ (AILIA_NETWORK_IMAGE_RANGE_*)
+  /// @param layer_name 特徴に対応したレイヤーの名称 (VGG16の場合はfc1, NULLで最終レイヤー)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Creates a feature extraction instance.
+  /// @param fextractor A feature extraction instance pointer
+  /// @param net        A network instance pointer
+  /// @param format     The network image format (AILIA_NETWORK_IMAGE_FORMAT_*)
+  /// @param channel    The network image channel (AILIA_NETWORK_IMAGE_CHANNEL_*)
+  /// @param range      The network image range (AILIA_NETWORK_IMAGE_RANGE_*)
+  /// @param layer_name The name of the layer corresponding to the feature (fc1 for VGG16 and NULL for the last layer)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaCreateFeatureExtractor(
+    ffi.Pointer<ffi.Pointer<AILIAFeatureExtractor>> fextractor,
+    ffi.Pointer<AILIANetwork> net,
+    int format,
+    int channel,
+    int range,
+    ffi.Pointer<ffi.Int8> layer_name,
+  ) {
+    return _ailiaCreateFeatureExtractor(
+      fextractor,
+      net,
+      format,
+      channel,
+      range,
+      layer_name,
+    );
+  }
+
+  late final _ailiaCreateFeatureExtractorPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<ffi.Pointer<AILIAFeatureExtractor>>,
+              ffi.Pointer<AILIANetwork>,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Pointer<ffi.Int8>)>>('ailiaCreateFeatureExtractor');
+  late final _ailiaCreateFeatureExtractor =
+      _ailiaCreateFeatureExtractorPtr.asFunction<
+          int Function(
+              ffi.Pointer<ffi.Pointer<AILIAFeatureExtractor>>,
+              ffi.Pointer<AILIANetwork>,
+              int,
+              int,
+              int,
+              ffi.Pointer<ffi.Int8>)>();
+
+  /// \~japanese
+  /// @brief 特徴抽出オブジェクトを破棄します。
+  /// @param fextractor 特徴抽出オブジェクトポインタ
+  ///
+  /// \~english
+  /// @brief It destroys the feature extraction instance.
+  /// @param fextractor A feature extraction instance pointer
+  void ailiaDestroyFeatureExtractor(
+    ffi.Pointer<AILIAFeatureExtractor> fextractor,
+  ) {
+    return _ailiaDestroyFeatureExtractor(
+      fextractor,
+    );
+  }
+
+  late final _ailiaDestroyFeatureExtractorPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<AILIAFeatureExtractor>)>>(
+      'ailiaDestroyFeatureExtractor');
+  late final _ailiaDestroyFeatureExtractor = _ailiaDestroyFeatureExtractorPtr
+      .asFunction<void Function(ffi.Pointer<AILIAFeatureExtractor>)>();
+
+  /// \~japanese
+  /// @brief 特徴の抽出を行います。
+  /// @param fextractor                  特徴抽出オブジェクトポインタ
+  /// @param dst                         特徴の格納先ポインタ(numeric型)
+  /// @param dst_size                    dstのサイズ(byte)
+  /// @param src                         画像データ(32bpp)
+  /// @param src_stride                  1ラインのバイト数
+  /// @param src_width                   画像幅
+  /// @param src_height                  画像高さ
+  /// @param src_format                  画像フォーマット (AILIA_IMAGE_FORMAT_*)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Performs feature extraction.
+  /// @param fextractor                  A feature extraction instance pointer
+  /// @param dst                         A pointer to the storage location of the feature (numeric type)
+  /// @param dst_size                    The size of the dst (bytes)
+  /// @param src                         Image data (32 bpp)
+  /// @param src_stride                  The number of bytes in 1 line
+  /// @param src_width                   Image width
+  /// @param src_height                  Image height
+  /// @param src_format                  Image format (AILIA_IMAGE_FORMAT_*)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaFeatureExtractorCompute(
+    ffi.Pointer<AILIAFeatureExtractor> fextractor,
+    ffi.Pointer<ffi.Void> dst,
+    int dst_size,
+    ffi.Pointer<ffi.Void> src,
+    int src_stride,
+    int src_width,
+    int src_height,
+    int src_format,
+  ) {
+    return _ailiaFeatureExtractorCompute(
+      fextractor,
+      dst,
+      dst_size,
+      src,
+      src_stride,
+      src_width,
+      src_height,
+      src_format,
+    );
+  }
+
+  late final _ailiaFeatureExtractorComputePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAFeatureExtractor>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Uint32,
+              ffi.Pointer<ffi.Void>,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaFeatureExtractorCompute');
+  late final _ailiaFeatureExtractorCompute =
+      _ailiaFeatureExtractorComputePtr.asFunction<
+          int Function(
+              ffi.Pointer<AILIAFeatureExtractor>,
+              ffi.Pointer<ffi.Void>,
+              int,
+              ffi.Pointer<ffi.Void>,
+              int,
+              int,
+              int,
+              int)>();
+
+  /// \~japanese
+  /// @brief 特徴間の距離を計算します。
+  /// @param fextractor                  特徴抽出オブジェクトポインタ
+  /// @param distance                    特徴間距離
+  /// @param distance_type               特徴間距離の種別
+  /// @param feature1                    一方の特徴の格納先ポインタ(numeric型)
+  /// @param feature1_size               dstのサイズ(byte)
+  /// @param feature2                    他方の特徴の格納先ポインタ(numeric型)
+  /// @param feature2_size               dstのサイズ(byte)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Computes distances in feature space.
+  /// @param fextractor                  A feature extraction instance pointer
+  /// @param distance                    A distance in feature space
+  /// @param distance_type               The type of the distance in feature space
+  /// @param feature1                    A pointer to the storage location of one feature (numeric type)
+  /// @param feature1_size               The size of the feature1 (bytes)
+  /// @param feature2                    A pointer to the storage location of the other feature (numeric type)
+  /// @param feature2_size               The size of the feature2 (bytes)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaFeatureExtractorMatch(
+    ffi.Pointer<AILIAFeatureExtractor> fextractor,
+    ffi.Pointer<ffi.Float> distance,
+    int distace_type,
+    ffi.Pointer<ffi.Void> feature1,
+    int feature1_size,
+    ffi.Pointer<ffi.Void> feature2,
+    int feature2_size,
+  ) {
+    return _ailiaFeatureExtractorMatch(
+      fextractor,
+      distance,
+      distace_type,
+      feature1,
+      feature1_size,
+      feature2,
+      feature2_size,
+    );
+  }
+
+  late final _ailiaFeatureExtractorMatchPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAFeatureExtractor>,
+              ffi.Pointer<ffi.Float>,
+              ffi.Uint32,
+              ffi.Pointer<ffi.Void>,
+              ffi.Uint32,
+              ffi.Pointer<ffi.Void>,
+              ffi.Uint32)>>('ailiaFeatureExtractorMatch');
+  late final _ailiaFeatureExtractorMatch =
+      _ailiaFeatureExtractorMatchPtr.asFunction<
+          int Function(
+              ffi.Pointer<AILIAFeatureExtractor>,
+              ffi.Pointer<ffi.Float>,
+              int,
+              ffi.Pointer<ffi.Void>,
+              int,
+              ffi.Pointer<ffi.Void>,
+              int)>();
+
+  /// \~japanese
+  /// @brief 検出オブジェクトを作成します。
+  /// @param pose_estimator 検出オブジェクトポインタ
+  /// @param net            ネットワークオブジェクトポインタ
+  /// @param algorithm      検出アルゴリズム (AILIA_POSE_ESTIMATOR_ALGORITHM_*)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// @details
+  /// caffemodelとprototxtを読み込んだAILIANetworkから検出オブジェクトを作成します。
+  ///
+  /// \~english
+  /// @brief Creates a estimator instance.
+  /// @param pose_estimator An estimator instance pointer
+  /// @param net            The network instance pointer
+  /// @param algorithm      Estimation algorithm(AILIA_POSE_ESTIMATOR_ALGORITHM_*)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// @details
+  /// This function creates an estimator instance from AILIANetwork when reading caffemodel and prototxt.
+  int ailiaCreatePoseEstimator(
+    ffi.Pointer<ffi.Pointer<AILIAPoseEstimator>> pose_estimator,
+    ffi.Pointer<AILIANetwork> net,
+    int algorithm,
+  ) {
+    return _ailiaCreatePoseEstimator(
+      pose_estimator,
+      net,
+      algorithm,
+    );
+  }
+
+  late final _ailiaCreatePoseEstimatorPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<ffi.Pointer<AILIAPoseEstimator>>,
+              ffi.Pointer<AILIANetwork>,
+              ffi.Uint32)>>('ailiaCreatePoseEstimator');
+  late final _ailiaCreatePoseEstimator =
+      _ailiaCreatePoseEstimatorPtr.asFunction<
+          int Function(ffi.Pointer<ffi.Pointer<AILIAPoseEstimator>>,
+              ffi.Pointer<AILIANetwork>, int)>();
+
+  /// \~japanese
+  /// @brief 検出オブジェクトを破棄します。
+  /// @param pose_estimator 検出オブジェクトポインタ
+  ///
+  /// \~english
+  /// @brief Destroys the estimator instance.
+  /// @param pose_estimator An estimator instance pointer
+  void ailiaDestroyPoseEstimator(
+    ffi.Pointer<AILIAPoseEstimator> pose_estimator,
+  ) {
+    return _ailiaDestroyPoseEstimator(
+      pose_estimator,
+    );
+  }
+
+  late final _ailiaDestroyPoseEstimatorPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<AILIAPoseEstimator>)>>('ailiaDestroyPoseEstimator');
+  late final _ailiaDestroyPoseEstimator = _ailiaDestroyPoseEstimatorPtr
+      .asFunction<void Function(ffi.Pointer<AILIAPoseEstimator>)>();
+
+  /// \~japanese
+  /// @brief 検出閾値を設定します。
+  /// @param pose_estimator              検出オブジェクトポインタ
+  /// @param threshold                   検出閾値 0.0以上1.0以下の値で、値が小さいほど検出しやすくなります。
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Set the detection threshold.
+  /// @param pose_estimator              An estimator instance pointer
+  /// @param threshold                   The detection threshold (for example, 0.1f) (The smaller it is, the easier the
+  /// detection will be and the more detected objects found.)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaPoseEstimatorSetThreshold(
+    ffi.Pointer<AILIAPoseEstimator> pose_estimator,
+    double threshold,
+  ) {
+    return _ailiaPoseEstimatorSetThreshold(
+      pose_estimator,
+      threshold,
+    );
+  }
+
+  late final _ailiaPoseEstimatorSetThresholdPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Float)>>('ailiaPoseEstimatorSetThreshold');
+  late final _ailiaPoseEstimatorSetThreshold =
+      _ailiaPoseEstimatorSetThresholdPtr
+          .asFunction<int Function(ffi.Pointer<AILIAPoseEstimator>, double)>();
+
+  /// \~japanese
+  /// @brief 骨格検出・顔特徴点検出を行います。
+  /// @param pose_estimator              検出オブジェクトポインタ
+  /// @param src                         画像データ(32bpp)
+  /// @param src_stride                  1ラインのバイト数
+  /// @param src_width                   画像幅
+  /// @param src_height                  画像高さ
+  /// @param src_format                  画像形式 (AILIA_IMAGE_FORMAT_*)
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Performs human pose estimation and human face landmarks extraction.
+  /// @param pose_estimator              An estimator instance pointer
+  /// @param src                         Image data (32 bpp)
+  /// @param src_stride                  The number of bytes in 1 line
+  /// @param src_width                   Image width
+  /// @param src_height                  Image height
+  /// @param src_format                  Image format (AILIA_IMAGE_FORMAT_*)
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaPoseEstimatorCompute(
+    ffi.Pointer<AILIAPoseEstimator> pose_estimator,
+    ffi.Pointer<ffi.Void> src,
+    int src_stride,
+    int src_width,
+    int src_height,
+    int src_format,
+  ) {
+    return _ailiaPoseEstimatorCompute(
+      pose_estimator,
+      src,
+      src_stride,
+      src_width,
+      src_height,
+      src_format,
+    );
+  }
+
+  late final _ailiaPoseEstimatorComputePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaPoseEstimatorCompute');
+  late final _ailiaPoseEstimatorCompute =
+      _ailiaPoseEstimatorComputePtr.asFunction<
+          int Function(ffi.Pointer<AILIAPoseEstimator>, ffi.Pointer<ffi.Void>,
+              int, int, int, int)>();
+
+  /// \~japanese
+  /// @brief 検出結果の数を取得します。
+  /// @param pose_estimator  検出オブジェクトポインタ
+  /// @param obj_count       オブジェクト数  顔特徴点の場合は1または0となります。
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Gets the number of detection results.
+  /// @param pose_estimator  An estimator instance pointer
+  /// @param obj_count       The number of objects. Set to 1 or 0 for human face landmarks.
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaPoseEstimatorGetObjectCount(
+    ffi.Pointer<AILIAPoseEstimator> pose_estimator,
+    ffi.Pointer<ffi.Uint32> obj_count,
+  ) {
+    return _ailiaPoseEstimatorGetObjectCount(
+      pose_estimator,
+      obj_count,
+    );
+  }
+
+  late final _ailiaPoseEstimatorGetObjectCountPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<ffi.Uint32>)>>('ailiaPoseEstimatorGetObjectCount');
+  late final _ailiaPoseEstimatorGetObjectCount =
+      _ailiaPoseEstimatorGetObjectCountPtr.asFunction<
+          int Function(
+              ffi.Pointer<AILIAPoseEstimator>, ffi.Pointer<ffi.Uint32>)>();
+
+  /// \~japanese
+  /// @brief 骨格検出結果を取得します。
+  /// @param pose_estimator  検出オブジェクトポインタ
+  /// @param obj             オブジェクト情報
+  /// @param obj_idx         オブジェクトインデックス
+  /// @param version         AILIA_POSE_ESTIMATOR_OBJECT_POSE_VERSION
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Gets the results of the human pose estimation.
+  /// @param pose_estimator  An estimator instance pointer
+  /// @param obj             Object information
+  /// @param obj_idx         Object index
+  /// @param version         AILIA_POSE_ESTIMATOR_OBJECT_POSE_VERSION
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaPoseEstimatorGetObjectPose(
+    ffi.Pointer<AILIAPoseEstimator> pose_estimator,
+    ffi.Pointer<AILIAPoseEstimatorObjectPose> obj,
+    int obj_idx,
+    int version,
+  ) {
+    return _ailiaPoseEstimatorGetObjectPose(
+      pose_estimator,
+      obj,
+      obj_idx,
+      version,
+    );
+  }
+
+  late final _ailiaPoseEstimatorGetObjectPosePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<AILIAPoseEstimatorObjectPose>,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaPoseEstimatorGetObjectPose');
+  late final _ailiaPoseEstimatorGetObjectPose =
+      _ailiaPoseEstimatorGetObjectPosePtr.asFunction<
+          int Function(ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<AILIAPoseEstimatorObjectPose>, int, int)>();
+
+  /// \~japanese
+  /// @brief 顔特徴点検出結果を取得します。
+  /// @param pose_estimator  検出オブジェクトポインタ
+  /// @param obj             オブジェクト情報
+  /// @param obj_idx         オブジェクトインデックス 必ず 0 を指定してください。
+  /// @param version         AILIA_POSE_ESTIMATOR_OBJECT_FACE_VERSION
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Gets the results of the human face landmarks extraction.
+  /// @param pose_estimator  An estimator instance pointer
+  /// @param obj             Object information
+  /// @param obj_idx         Object index. Ensure that 0 is specified.
+  /// @param version         AILIA_POSE_ESTIMATOR_OBJECT_FACE_VERSION
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaPoseEstimatorGetObjectFace(
+    ffi.Pointer<AILIAPoseEstimator> pose_estimator,
+    ffi.Pointer<AILIAPoseEstimatorObjectFace> obj,
+    int obj_idx,
+    int version,
+  ) {
+    return _ailiaPoseEstimatorGetObjectFace(
+      pose_estimator,
+      obj,
+      obj_idx,
+      version,
+    );
+  }
+
+  late final _ailiaPoseEstimatorGetObjectFacePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<AILIAPoseEstimatorObjectFace>,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaPoseEstimatorGetObjectFace');
+  late final _ailiaPoseEstimatorGetObjectFace =
+      _ailiaPoseEstimatorGetObjectFacePtr.asFunction<
+          int Function(ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<AILIAPoseEstimatorObjectFace>, int, int)>();
+
+  /// \~japanese
+  /// @brief UpPose 認識結果を取得します。
+  /// @param pose_estimator  検出オブジェクトポインタ
+  /// @param obj             オブジェクト情報
+  /// @param obj_idx         オブジェクトインデックス
+  /// @param version         AILIA_POSE_ESTIMATOR_OBJECT_POSE_VERSION
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Gets the results of the human up pose estimation.
+  /// @param pose_estimator  An estimator instance pointer
+  /// @param obj             Object information
+  /// @param obj_idx         Object index
+  /// @param version         AILIA_POSE_ESTIMATOR_OBJECT_UPPOSE_VERSION
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaPoseEstimatorGetObjectUpPose(
+    ffi.Pointer<AILIAPoseEstimator> pose_estimator,
+    ffi.Pointer<AILIAPoseEstimatorObjectUpPose> obj,
+    int obj_idx,
+    int version,
+  ) {
+    return _ailiaPoseEstimatorGetObjectUpPose(
+      pose_estimator,
+      obj,
+      obj_idx,
+      version,
+    );
+  }
+
+  late final _ailiaPoseEstimatorGetObjectUpPosePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<AILIAPoseEstimatorObjectUpPose>,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaPoseEstimatorGetObjectUpPose');
+  late final _ailiaPoseEstimatorGetObjectUpPose =
+      _ailiaPoseEstimatorGetObjectUpPosePtr.asFunction<
+          int Function(ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<AILIAPoseEstimatorObjectUpPose>, int, int)>();
+
+  /// \~japanese
+  /// @brief Hand 認識結果を取得します。
+  /// @param pose_estimator  検出オブジェクトポインタ
+  /// @param obj             オブジェクト情報
+  /// @param obj_idx         オブジェクトインデックス 必ず 0 を指定してください。
+  /// @param version         AILIA_POSE_ESTIMATOR_OBJECT_HAND_VERSION
+  /// @return
+  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  ///
+  /// \~english
+  /// @brief Gets the results of the human hand estimation.
+  /// @param pose_estimator  An estimator instance pointer
+  /// @param obj             Object information
+  /// @param obj_idx         Object index. Ensure that 0 is specified.
+  /// @param version         AILIA_POSE_ESTIMATOR_OBJECT_HAND_VERSION
+  /// @return
+  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  int ailiaPoseEstimatorGetObjectHand(
+    ffi.Pointer<AILIAPoseEstimator> pose_estimator,
+    ffi.Pointer<AILIAPoseEstimatorObjectHand> obj,
+    int obj_idx,
+    int version,
+  ) {
+    return _ailiaPoseEstimatorGetObjectHand(
+      pose_estimator,
+      obj,
+      obj_idx,
+      version,
+    );
+  }
+
+  late final _ailiaPoseEstimatorGetObjectHandPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<AILIAPoseEstimatorObjectHand>,
+              ffi.Uint32,
+              ffi.Uint32)>>('ailiaPoseEstimatorGetObjectHand');
+  late final _ailiaPoseEstimatorGetObjectHand =
+      _ailiaPoseEstimatorGetObjectHandPtr.asFunction<
+          int Function(ffi.Pointer<AILIAPoseEstimator>,
+              ffi.Pointer<AILIAPoseEstimatorObjectHand>, int, int)>();
 }
 
 final class _ailiaFileCallback extends ffi.Struct {
@@ -2160,6 +3337,232 @@ final class _AILIAEnvironment extends ffi.Struct {
 
 typedef AILIAEnvironment = _AILIAEnvironment;
 
+/// 識別オブジェクトのインスタンス
+final class AILIAClassifier extends ffi.Opaque {}
+
+final class _AILIAClassifierClass extends ffi.Struct {
+  /// \~japanese
+  /// 識別カテゴリ番号
+  ///
+  /// \~english
+  /// Classification category number
+  @ffi.Int32()
+  external int category;
+
+  /// \~japanese
+  /// 推定確率(0～1)
+  ///
+  /// \~english
+  /// Estimated probability (0 to 1)
+  @ffi.Float()
+  external double prob;
+}
+
+typedef AILIAClassifierClass = _AILIAClassifierClass;
+
+/// 検出オブジェクトのインスタンス
+final class AILIADetector extends ffi.Opaque {}
+
+final class _AILIADetectorObject extends ffi.Struct {
+  /// \~japanese
+  /// オブジェクトカテゴリ番号(0～category_count-1)
+  ///
+  /// \~english
+  /// Object category number (0 to category_count-1)
+  @ffi.Uint32()
+  external int category;
+
+  /// \~japanese
+  /// 推定確率(0～1)
+  ///
+  /// \~english
+  /// Estimated probability (0 to 1)
+  @ffi.Float()
+  external double prob;
+
+  /// \~japanese
+  /// 左上X位置(1で画像幅)
+  ///
+  /// \~english
+  /// X position at the top left (1 for the image width)
+  @ffi.Float()
+  external double x;
+
+  /// \~japanese
+  /// 左上Y位置(1で画像高さ)
+  ///
+  /// \~english
+  /// Y position at the top left (1 for the image height)
+  @ffi.Float()
+  external double y;
+
+  /// \~japanese
+  /// 幅(1で画像横幅、負数は取らない)
+  ///
+  /// \~english
+  /// Width (1 for the width of the image, negative numbers not allowed)
+  @ffi.Float()
+  external double w;
+
+  /// \~japanese
+  /// 高さ(1で画像高さ、負数は取らない)
+  ///
+  /// \~english
+  /// Height (1 for the height of the image, negative numbers not allowed)
+  @ffi.Float()
+  external double h;
+}
+
+typedef AILIADetectorObject = _AILIADetectorObject;
+
+/// 特徴抽出オブジェクトのインスタンス
+final class AILIAFeatureExtractor extends ffi.Opaque {}
+
+/// 検出オブジェクトのインスタンス
+final class AILIAPoseEstimator extends ffi.Opaque {}
+
+final class _AILIAPoseEstimatorKeypoint extends ffi.Struct {
+  /// \~japanese
+  /// 入力画像内 X座標  (0.0 , 1.0)
+  ///
+  /// \~english
+  /// Input image X coordinate (0.0, 1.0)
+  @ffi.Float()
+  external double x;
+
+  /// \~japanese
+  /// 入力画像内 Y座標  (0.0 , 1.0)
+  ///
+  /// \~english
+  /// Input image Y coordinate (0.0, 1.0)
+  @ffi.Float()
+  external double y;
+
+  /// \~japanese
+  /// 骨格検出のみ有効。体中心を座標0とした時に推定されるローカルZ座標。単位(スケール)は x と同じです。
+  ///
+  /// \~english
+  /// Valid only for human pose estimation. The local Z coordinate is estimated when the center of the body is defined
+  /// as coordinate 0. The unit (scale) is the same as that for X.
+  @ffi.Float()
+  external double z_local;
+
+  /// \~japanese
+  /// この点の検出信頼度。値が0.0Fの場合、この点は未検出のため使用できません。
+  ///
+  /// \~english
+  /// The confidence of this point. If the value is 0.0F, then this point is not available as it has not been detected
+  /// yet.
+  @ffi.Float()
+  external double score;
+
+  /// \~japanese
+  /// 通常は0です。この点が未検出で、他の点から補間可能な場合、x,yの値を補間し、interpolated=1となります。
+  ///
+  /// \~english
+  /// The default is 0. If this point has not been detected and can be interpolated by other points, the x and y values
+  /// are then interpolated and the value of interpolated is set to 1.
+  @ffi.Int32()
+  external int interpolated;
+}
+
+final class _AILIAPoseEstimatorObjectPose extends ffi.Struct {
+  @ffi.Array.multi([19])
+  external ffi.Array<AILIAPoseEstimatorKeypoint> points;
+
+  /// \~japanese
+  /// このオブジェクトの検出信頼度
+  ///
+  /// \~english
+  /// The confidence of this object
+  @ffi.Float()
+  external double total_score;
+
+  /// \~japanese
+  /// points[]の中で正常に検出された関節点の個数
+  ///
+  /// \~english
+  /// The number of body joint positions properly detected in points[]
+  @ffi.Int32()
+  external int num_valid_points;
+
+  /// \~japanese
+  /// 時間方向に、このオブジェクトにユニークなIDです。1以上の正の値です。
+  ///
+  /// \~english
+  /// A unique ID for this object in the time direction. An integer value of 1 or more.
+  @ffi.Int32()
+  external int id;
+
+  @ffi.Array.multi([3])
+  external ffi.Array<ffi.Float> angle;
+}
+
+typedef AILIAPoseEstimatorKeypoint = _AILIAPoseEstimatorKeypoint;
+
+final class _AILIAPoseEstimatorObjectFace extends ffi.Struct {
+  @ffi.Array.multi([68])
+  external ffi.Array<AILIAPoseEstimatorKeypoint> points;
+
+  /// \~japanese
+  /// このオブジェクトの検出信頼度
+  ///
+  /// \~english
+  /// The confidence of this object
+  @ffi.Float()
+  external double total_score;
+}
+
+final class _AILIAPoseEstimatorObjectUpPose extends ffi.Struct {
+  @ffi.Array.multi([15])
+  external ffi.Array<AILIAPoseEstimatorKeypoint> points;
+
+  /// \~japanese
+  /// このオブジェクトの検出信頼度
+  ///
+  /// \~english
+  /// The confidence of this object
+  @ffi.Float()
+  external double total_score;
+
+  /// \~japanese
+  /// points[]の中で正常に検出された関節点の個数
+  ///
+  /// \~english
+  /// The number of body joint positions properly detected in points[]
+  @ffi.Int32()
+  external int num_valid_points;
+
+  /// \~japanese
+  /// 時間方向に、このオブジェクトにユニークなIDです。1以上の正の値です。
+  ///
+  /// \~english
+  /// A unique ID for this object in the time direction. An integer value of 1 or more.
+  @ffi.Int32()
+  external int id;
+
+  @ffi.Array.multi([3])
+  external ffi.Array<ffi.Float> angle;
+}
+
+final class _AILIAPoseEstimatorObjectHand extends ffi.Struct {
+  @ffi.Array.multi([21])
+  external ffi.Array<AILIAPoseEstimatorKeypoint> points;
+
+  /// \~japanese
+  /// このオブジェクトの検出信頼度
+  ///
+  /// \~english
+  /// The confidence of this object
+  @ffi.Float()
+  external double total_score;
+}
+
+typedef AILIAPoseEstimatorObjectPose = _AILIAPoseEstimatorObjectPose;
+typedef AILIAPoseEstimatorObjectFace = _AILIAPoseEstimatorObjectFace;
+typedef AILIAPoseEstimatorObjectUpPose = _AILIAPoseEstimatorObjectUpPose;
+typedef AILIAPoseEstimatorObjectHand = _AILIAPoseEstimatorObjectHand;
+
 const int NULL = 0;
 
 const int AILIA_USER_API_SUCCESS = 0;
@@ -2291,3 +3694,157 @@ const int AILIA_MEMORY_OPTIMAIZE_DEFAULT = 1;
 const int AILIA_PROFILE_DISABLE = 0;
 
 const int AILIA_PROFILE_AVERAGE = 1;
+
+const int AILIA_IMAGE_FORMAT_RGBA = 0;
+
+const int AILIA_IMAGE_FORMAT_BGRA = 1;
+
+const int AILIA_IMAGE_FORMAT_RGB = 2;
+
+const int AILIA_IMAGE_FORMAT_BGR = 3;
+
+const int AILIA_IMAGE_FORMAT_RGBA_B2T = 16;
+
+const int AILIA_IMAGE_FORMAT_BGRA_B2T = 17;
+
+const int AILIA_NETWORK_IMAGE_FORMAT_BGR = 0;
+
+const int AILIA_NETWORK_IMAGE_FORMAT_RGB = 1;
+
+const int AILIA_NETWORK_IMAGE_FORMAT_GRAY = 2;
+
+const int AILIA_NETWORK_IMAGE_FORMAT_GRAY_EQUALIZE = 3;
+
+const int AILIA_NETWORK_IMAGE_CHANNEL_FIRST = 0;
+
+const int AILIA_NETWORK_IMAGE_CHANNEL_LAST = 1;
+
+const int AILIA_NETWORK_IMAGE_RANGE_UNSIGNED_INT8 = 0;
+
+const int AILIA_NETWORK_IMAGE_RANGE_SIGNED_INT8 = 1;
+
+const int AILIA_NETWORK_IMAGE_RANGE_UNSIGNED_FP32 = 2;
+
+const int AILIA_NETWORK_IMAGE_RANGE_SIGNED_FP32 = 3;
+
+const int AILIA_NETWORK_IMAGE_RANGE_IMAGENET = 4;
+
+const int AILIA_CLASSIFIER_CLASS_VERSION = 1;
+
+const int AILIA_DETECTOR_OBJECT_VERSION = 1;
+
+const int AILIA_DETECTOR_ALGORITHM_YOLOV1 = 0;
+
+const int AILIA_DETECTOR_ALGORITHM_YOLOV2 = 1;
+
+const int AILIA_DETECTOR_ALGORITHM_YOLOV3 = 2;
+
+const int AILIA_DETECTOR_ALGORITHM_YOLOV4 = 3;
+
+const int AILIA_DETECTOR_ALGORITHM_YOLOX = 4;
+
+const int AILIA_DETECTOR_ALGORITHM_SSD = 8;
+
+const int AILIA_DETECTOR_FLAG_NORMAL = 0;
+
+const int AILIA_FEATURE_EXTRACTOR_DISTANCE_L2NORM = 0;
+
+const int AILIA_POSE_ESTIMATOR_ALGORITHM_ACCULUS_POSE = 0;
+
+const int AILIA_POSE_ESTIMATOR_ALGORITHM_ACCULUS_FACE = 1;
+
+const int AILIA_POSE_ESTIMATOR_ALGORITHM_ACCULUS_UPPOSE = 2;
+
+const int AILIA_POSE_ESTIMATOR_ALGORITHM_ACCULUS_UPPOSE_FPGA = 3;
+
+const int AILIA_POSE_ESTIMATOR_ALGORITHM_ACCULUS_HAND = 5;
+
+const int AILIA_POSE_ESTIMATOR_ALGORITHM_OPEN_POSE = 10;
+
+const int AILIA_POSE_ESTIMATOR_ALGORITHM_LW_HUMAN_POSE = 11;
+
+const int AILIA_POSE_ESTIMATOR_ALGORITHM_OPEN_POSE_SINGLE_SCALE = 12;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_NOSE = 0;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_EYE_LEFT = 1;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_EYE_RIGHT = 2;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_EAR_LEFT = 3;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_EAR_RIGHT = 4;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_SHOULDER_LEFT = 5;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_SHOULDER_RIGHT = 6;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_ELBOW_LEFT = 7;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_ELBOW_RIGHT = 8;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_WRIST_LEFT = 9;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_WRIST_RIGHT = 10;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_HIP_LEFT = 11;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_HIP_RIGHT = 12;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_KNEE_LEFT = 13;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_KNEE_RIGHT = 14;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_ANKLE_LEFT = 15;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_ANKLE_RIGHT = 16;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_SHOULDER_CENTER = 17;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_BODY_CENTER = 18;
+
+const int AILIA_POSE_ESTIMATOR_POSE_KEYPOINT_CNT = 19;
+
+const int AILIA_POSE_ESTIMATOR_FACE_KEYPOINT_CNT = 68;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_NOSE = 0;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_EYE_LEFT = 1;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_EYE_RIGHT = 2;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_EAR_LEFT = 3;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_EAR_RIGHT = 4;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_SHOULDER_LEFT = 5;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_SHOULDER_RIGHT = 6;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_ELBOW_LEFT = 7;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_ELBOW_RIGHT = 8;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_WRIST_LEFT = 9;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_WRIST_RIGHT = 10;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_HIP_LEFT = 11;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_HIP_RIGHT = 12;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_SHOULDER_CENTER = 13;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_BODY_CENTER = 14;
+
+const int AILIA_POSE_ESTIMATOR_UPPOSE_KEYPOINT_CNT = 15;
+
+const int AILIA_POSE_ESTIMATOR_HAND_KEYPOINT_CNT = 21;
+
+const int AILIA_POSE_ESTIMATOR_OBJECT_POSE_VERSION = 1;
+
+const int AILIA_POSE_ESTIMATOR_OBJECT_FACE_VERSION = 1;
+
+const int AILIA_POSE_ESTIMATOR_OBJECT_UPPOSE_VERSION = 1;
+
+const int AILIA_POSE_ESTIMATOR_OBJECT_HAND_VERSION = 1;

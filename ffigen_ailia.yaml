@@ -1,0 +1,13 @@
+﻿name: 'ailiaFFI'
+description: 'Written for the FFI article'
+output: 'lib/ffi/ailia.dart'
+headers:
+  entry-points:
+    - 'native/ailia.h'
+    - 'native/ailia_classifier.h'
+    - 'native/ailia_detector.h'
+    - 'native/ailia_feature_extractor.h'
+    - 'native/ailia_format.h'
+    - 'native/ailia_pose_estimator.h'
+llvm-path:
+  - '/usr/local/opt/llvm@15'
