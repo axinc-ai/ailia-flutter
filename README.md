@@ -4,9 +4,18 @@ A flutter binding for ailia.
 
 # Test environment
 
+## macOS
+
 - macOS 13.4
 - flutter 3.10.6
 - vscode 1.79.2
+- flutter extension 3.68.0
+
+## Windows
+
+- windows 10
+- flutter 3.10.6
+- vscode 1.80.1
 - flutter extension 3.68.0
 
 # Setup flutter
@@ -137,7 +146,9 @@ https://docs.flutter.dev/platform-integration/android/c-interop
 
 ### Windows
 
-TBD
+Copy ailia.dll to build/windows/runner/Debug.
+
+![tutorial](tutorial/windows.png)
 
 ## Add model to assets folder
 
