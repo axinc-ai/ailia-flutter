@@ -10,6 +10,7 @@ A flutter binding for ailia.
 - flutter 3.10.6
 - vscode 1.79.2
 - flutter extension 3.68.0
+- xcode 14.2
 
 ## Windows
 
@@ -17,6 +18,7 @@ A flutter binding for ailia.
 - flutter 3.10.6
 - vscode 1.80.1
 - flutter extension 3.68.0
+- visual studio 2019
 
 # Setup flutter
 
@@ -107,6 +109,10 @@ Put libailia.dylib to macos folder. Open macos/Runner.xcworkspace. Regist libail
 https://docs.flutter.dev/platform-integration/macos/c-interop
 
 ![tutorial](tutorial/macos.png)
+
+![tutorial](tutorial/macos1.png)
+
+![tutorial](tutorial/macos2.png)
 
 ### iOS
 
