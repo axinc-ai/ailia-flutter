@@ -44,6 +44,15 @@ export PATH="/Users/xxx/flutter/bin:$PATH"
 2. Create new project (flutter: new project) from view -> command pallet.
 3. Push run from menu button.
 
+# Setup project
+
+Download the package by executing the command below.
+
+```
+flutter clean
+flutter pub get
+```
+
 # Bind ailia C API via ffigen (Optional)
 
 The steps below are done with ax and the dart interface files are included in this repository. Therefore, execution is not mandatory.
@@ -113,6 +122,14 @@ https://docs.flutter.dev/platform-integration/macos/c-interop
 ![tutorial](tutorial/macos1.png)
 
 ![tutorial](tutorial/macos2.png)
+
+On macos, you can't open the downloaded dylib with a browser, so remove the download attribute.
+
+```
+xattr -d com.apple.quarantine macos/libailia.dylib
+```
+
+The evaluation version needs to set com.apple.security.app-sandbox in DebugProfile.entitlements to false in order to read the license file.
 
 ### iOS
 
